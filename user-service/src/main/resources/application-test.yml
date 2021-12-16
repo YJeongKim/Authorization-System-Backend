@@ -1,0 +1,19 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+  jpa:
+    show_sql: true
+    session:
+      store-type: jdbc
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driverClassName: org.h2.Driver

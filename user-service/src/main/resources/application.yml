@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name: user-service
+  profiles:
+    active: test
 
 ## Eureka - Service Discovery ##
 eureka:
