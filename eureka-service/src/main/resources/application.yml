@@ -1,0 +1,15 @@
+server:
+  port: 8020
+spring:
+  application:
+    name: eureka-service
+
+## Eureka - Service Discovery ##
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+    register-with-eureka: false # Whether to register in the registry (not use eureka-server)
+    fetch-registry: false # Whether to get the information in the registry (not use eureka-server)
