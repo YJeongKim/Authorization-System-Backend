@@ -1,5 +1,11 @@
+server:
+  port: 8070
 spring:
   application:
     name: user-service
-server:
-  port: 8070
+
+## Eureka - Service Discovery ##
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8020/eureka/
