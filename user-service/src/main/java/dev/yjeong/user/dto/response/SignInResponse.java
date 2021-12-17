@@ -1,4 +1,4 @@
-package dev.yjeong.user.dto;
+package dev.yjeong.user.dto.response;
 
 import dev.yjeong.user.domain.User;
 

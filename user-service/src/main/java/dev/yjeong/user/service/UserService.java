@@ -2,10 +2,10 @@ package dev.yjeong.user.service;
 
 import dev.yjeong.user.domain.User;
 import dev.yjeong.user.domain.UserRepository;
-import dev.yjeong.user.dto.SignInRequest;
-import dev.yjeong.user.dto.SignInResponse;
-import dev.yjeong.user.dto.SignUpRequest;
-import dev.yjeong.user.dto.SignUpResponse;
+import dev.yjeong.user.dto.request.SignInRequest;
+import dev.yjeong.user.dto.response.SignInResponse;
+import dev.yjeong.user.dto.request.SignUpRequest;
+import dev.yjeong.user.dto.response.SignUpResponse;
 
 import lombok.RequiredArgsConstructor;
 

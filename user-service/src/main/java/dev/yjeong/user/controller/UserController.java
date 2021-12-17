@@ -1,9 +1,9 @@
 package dev.yjeong.user.controller;
 
-import dev.yjeong.user.dto.SignInRequest;
-import dev.yjeong.user.dto.SignInResponse;
-import dev.yjeong.user.dto.SignUpRequest;
-import dev.yjeong.user.dto.SignUpResponse;
+import dev.yjeong.user.dto.request.SignInRequest;
+import dev.yjeong.user.dto.response.SignInResponse;
+import dev.yjeong.user.dto.request.SignUpRequest;
+import dev.yjeong.user.dto.response.SignUpResponse;
 import dev.yjeong.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;

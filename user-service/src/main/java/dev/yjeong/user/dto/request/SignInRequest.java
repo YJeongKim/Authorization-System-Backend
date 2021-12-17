@@ -1,4 +1,4 @@
-package dev.yjeong.user.dto;
+package dev.yjeong.user.dto.request;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
