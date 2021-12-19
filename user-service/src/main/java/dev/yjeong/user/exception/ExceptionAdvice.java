@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -30,8 +31,20 @@ public class ExceptionAdvice {
                 .body(ExceptionResponse.builder().message(exception.getMessage()).build());
     }
 
-    private void printLog(Exception exception) {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ExceptionResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        printLog(exception.getClass().getName(), exception.getFieldError().getDefaultMessage());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ExceptionResponse.builder().message(exception.getFieldError().getDefaultMessage()).build());
+    }
+
+    private void printLog(RuntimeException exception) {
         log.error(LocalDateTime.now() + " - " + exception);
+    }
+
+    private void printLog(String exception, String message) {
+        log.error(LocalDateTime.now() + " - " + exception + ": " + message);
     }
 
 }
