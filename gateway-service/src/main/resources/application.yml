@@ -10,3 +10,18 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8020/eureka/
+
+---
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/users/**
+        - id: auth-service
+            uri: lb://AUTH-SERVICE
+            predicates:
+              - Path=/api/auth/**
