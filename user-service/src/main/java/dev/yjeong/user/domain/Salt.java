@@ -34,4 +34,8 @@ public class Salt extends BaseEntity {
                 .build();
     }
 
+    public void updateValue(String value) {
+        this.value = value;
+    }
+
 }

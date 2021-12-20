@@ -4,8 +4,10 @@ import dev.yjeong.user.domain.Salt;
 import dev.yjeong.user.domain.SaltRepository;
 import dev.yjeong.user.domain.User;
 import dev.yjeong.user.domain.UserRepository;
+import dev.yjeong.user.dto.request.SearchPasswordRequest;
 import dev.yjeong.user.dto.request.SignInRequest;
 import dev.yjeong.user.dto.request.SignUpRequest;
+import dev.yjeong.user.dto.request.UpdatePasswordRequest;
 import dev.yjeong.user.dto.response.SignInResponse;
 import dev.yjeong.user.dto.response.SignUpResponse;
 import dev.yjeong.user.exception.BadRequestException;
@@ -15,6 +17,7 @@ import dev.yjeong.user.util.PasswordEncryptor;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -26,6 +29,7 @@ public class UserService {
 
     private final PasswordEncryptor passwordEncryptor;
 
+    @Transactional
     public SignUpResponse signUpUser(SignUpRequest signUpRequest) {
         if (existsUserByEmail(signUpRequest.getEmail())) {
             throw new BadRequestException(ExceptionType.DUPLICATE_EMAIL);
@@ -45,6 +49,25 @@ public class UserService {
         String encryptedPassword = passwordEncryptor.hashPasswordWithSalt(signInRequest.getPassword(), salt);
         validatePassword(user.getPassword(), encryptedPassword);
         return SignInResponse.of(user);
+    }
+
+    public void searchPassword(SearchPasswordRequest passwordRequest) {
+        if (!existsUserByEmail(passwordRequest.getEmail())) {
+            throw new BadRequestException(ExceptionType.NOT_EXIST_EMAIL);
+        }
+        // TODO: 이메일 인증 요청
+    }
+
+    @Transactional
+    public void changePassword(UpdatePasswordRequest passwordRequest) {
+        if (!existsUserByEmail(passwordRequest.getEmail())) {
+            throw new BadRequestException(ExceptionType.NOT_EXIST_EMAIL);
+        }
+        User user = userRepository.findByEmail(passwordRequest.getEmail());
+        user.getSalt().updateValue(passwordEncryptor.createSalt());
+        String encryptedPassword = passwordEncryptor.hashPasswordWithSalt(
+                passwordRequest.getPassword(), user.getSalt().getValue());
+        user.updatePassword(encryptedPassword);
     }
 
     private boolean existsUserByEmail(String email) {
