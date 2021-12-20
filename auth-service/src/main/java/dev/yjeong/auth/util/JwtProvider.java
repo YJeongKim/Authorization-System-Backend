@@ -1,6 +1,7 @@
 package dev.yjeong.auth.util;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -33,6 +34,19 @@ public class JwtProvider {
         return createToken(subject, REFRESH_TOKEN_VALIDITY);
     }
 
+    public boolean validateToken(String token) {
+        try {
+            Claims claims = getClaims(token);
+            return isExpirationDate(claims.getExpiration());
+        } catch (JwtException | IllegalArgumentException exception) {
+            return false;
+        }
+    }
+
+    public String getSubject(String token) {
+        return getClaims(token).getSubject();
+    }
+
     private String createToken(String subject, long tokenValidity) {
         Claims claims = Jwts.claims().setSubject(subject);
         Date currentDate = new Date();
@@ -44,6 +58,17 @@ public class JwtProvider {
                 .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
+    }
+
+    private Claims getClaims(String token) {
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    private boolean isExpirationDate(Date expiration) {
+        return expiration.before(new Date());
     }
 
 }
