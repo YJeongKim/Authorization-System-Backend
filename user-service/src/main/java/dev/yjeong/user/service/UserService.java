@@ -40,8 +40,9 @@ public class UserService {
         if (!existsUserByEmail(signInRequest.getEmail())) {
             throw new BadRequestException(ExceptionType.NOT_EXIST_EMAIL);
         }
-        String encryptedPassword = signInRequest.getPassword(); // TODO: 비밀번호 암호화
         User user = userRepository.findByEmail(signInRequest.getEmail());
+        String salt = user.getSalt().getValue();
+        String encryptedPassword = passwordEncryptor.hashPasswordWithSalt(signInRequest.getPassword(), salt);
         validatePassword(user.getPassword(), encryptedPassword);
         return SignInResponse.of(user);
     }
