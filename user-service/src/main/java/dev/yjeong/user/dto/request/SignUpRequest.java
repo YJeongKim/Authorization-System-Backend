@@ -1,7 +1,7 @@
 package dev.yjeong.user.dto.request;
 
+import dev.yjeong.user.domain.Salt;
 import dev.yjeong.user.domain.User;
-
 import dev.yjeong.user.exception.NotValidExceptionMessage;
 
 import lombok.Getter;
@@ -27,12 +27,13 @@ public class SignUpRequest {
     @NotBlank(message = NotValidExceptionMessage.NOR_BLANK_NICKNAME)
     private final String nickname;
 
-    public User toEntity(String encryptedPassword) {
+    public User toEntity(String encryptedPassword, Salt salt) {
         return User.builder()
                 .email(email)
                 .password(encryptedPassword)
                 .name(name)
                 .nickname(nickname)
+                .salt(salt)
                 .build();
     }
 

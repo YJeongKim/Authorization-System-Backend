@@ -8,9 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,7 +21,7 @@ public class User extends BaseEntity {
     @Column(nullable = false, columnDefinition = "VARCHAR(320)")
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "VARCHAR(65)")
     private String password;
 
     @Column(nullable = false, columnDefinition = "VARCHAR(10)")
@@ -32,12 +30,17 @@ public class User extends BaseEntity {
     @Column(nullable = false, columnDefinition = "VARCHAR(20)")
     private String nickname;
 
+    @OneToOne
+    @JoinColumn(name = "salt_id")
+    private Salt salt;
+
     @Builder
-    public User(String email, String password, String name, String nickname) {
+    public User(String email, String password, String name, String nickname, Salt salt) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.nickname = nickname;
+        this.salt = salt;
     }
 
 }
