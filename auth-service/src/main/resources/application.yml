@@ -12,3 +12,7 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8020/eureka/
+
+# It is information that must be hidden. (But temporarily public)
+jwt:
+  secret: yeonjeong
