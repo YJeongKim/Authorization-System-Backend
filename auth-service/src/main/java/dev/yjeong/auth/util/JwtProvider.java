@@ -1,4 +1,4 @@
-package dev.yjeong.auth.config.jwt;
+package dev.yjeong.auth.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -13,10 +13,13 @@ import java.util.Date;
 @Component
 public class JwtProvider {
 
-    private static final long ACCESS_TOKEN_VALIDITY = 1000L * 60 * 30; // 30minutes
-    private static final long REFRESH_TOKEN_VALIDITY = 1000L * 60 * 60 * 24 * 15; // 15days
+    public static final String ACCESS_TOKEN = "AccessToken";
+    public static final String REFRESH_TOKEN = "RefreshToken";
 
-    private String secretKey;
+    public static final long ACCESS_TOKEN_VALIDITY = 1000L * 60 * 30; // 30minutes
+    public static final long REFRESH_TOKEN_VALIDITY = 1000L * 60 * 60 * 24 * 15; // 15days
+
+    private final String secretKey;
 
     public JwtProvider(@Value("${jwt.secret}") String secretKey) {
         this.secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());

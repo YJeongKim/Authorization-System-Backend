@@ -1,7 +1,9 @@
 package dev.yjeong.auth.service;
 
-import dev.yjeong.auth.config.jwt.JwtProvider;
 import dev.yjeong.auth.dto.response.SignInResponse;
+import dev.yjeong.auth.dto.response.TokenResponse;
+import dev.yjeong.auth.util.JwtProvider;
+import dev.yjeong.auth.util.RedisManager;
 
 import lombok.RequiredArgsConstructor;
 
@@ -13,12 +15,22 @@ public class AuthService {
 
     private final JwtProvider jwtProvider;
 
-    public SignInResponse issueToken() {
-        SignInResponse response = new SignInResponse(1L, "닉네임"); // TODO: User Server 에서 받아오기
-        String accessToken = jwtProvider.createAccessToken(response.getId().toString());
-        String refreshToken = jwtProvider.createRefreshToken(response.getId().toString());
-        System.out.println("access: " + accessToken + ", refresh: " + refreshToken); // TODO: Cookie, Cache 에 저장
-        return response;
+    private final RedisManager redisManager;
+
+    public TokenResponse issueToken(SignInResponse signInResponse) {
+        Long userId = signInResponse.getId();
+        String accessToken = jwtProvider.createAccessToken(userId.toString());
+        String refreshToken = jwtProvider.createRefreshToken(userId.toString());
+
+        redisManager.setValue(
+                generateKeyName(userId, JwtProvider.ACCESS_TOKEN), accessToken, JwtProvider.ACCESS_TOKEN_VALIDITY);
+        redisManager.setValue(
+                generateKeyName(userId, JwtProvider.REFRESH_TOKEN), refreshToken, JwtProvider.REFRESH_TOKEN_VALIDITY);
+        return TokenResponse.of(accessToken, refreshToken);
+    }
+
+    private String generateKeyName(long userId, String token) {
+        return userId + "-" + token;
     }
 
 }
