@@ -1,6 +1,7 @@
 package dev.yjeong.user.dto.request;
 
 import dev.yjeong.user.exception.NotValidExceptionMessage;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

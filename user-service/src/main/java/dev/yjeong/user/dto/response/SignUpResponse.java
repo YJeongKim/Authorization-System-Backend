@@ -11,7 +11,7 @@ public class SignUpResponse {
     private final String email;
 
     @Builder
-    public SignUpResponse(String email) {
+    private SignUpResponse(String email) {
         this.email = email;
     }
 

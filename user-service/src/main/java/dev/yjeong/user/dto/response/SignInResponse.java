@@ -13,7 +13,7 @@ public class SignInResponse {
     private final String nickname;
 
     @Builder
-    public SignInResponse(Long id, String nickname) {
+    private SignInResponse(Long id, String nickname) {
         this.id = id;
         this.nickname = nickname;
     }
