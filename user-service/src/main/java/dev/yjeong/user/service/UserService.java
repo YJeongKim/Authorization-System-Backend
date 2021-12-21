@@ -4,12 +4,10 @@ import dev.yjeong.user.domain.Salt;
 import dev.yjeong.user.domain.SaltRepository;
 import dev.yjeong.user.domain.User;
 import dev.yjeong.user.domain.UserRepository;
-import dev.yjeong.user.dto.request.SearchPasswordRequest;
-import dev.yjeong.user.dto.request.SignInRequest;
-import dev.yjeong.user.dto.request.SignUpRequest;
-import dev.yjeong.user.dto.request.UpdatePasswordRequest;
+import dev.yjeong.user.dto.request.*;
 import dev.yjeong.user.dto.response.SignInResponse;
 import dev.yjeong.user.dto.response.SignUpResponse;
+import dev.yjeong.user.dto.response.UserInfoResponse;
 import dev.yjeong.user.exception.BadRequestException;
 import dev.yjeong.user.exception.ExceptionType;
 import dev.yjeong.user.util.PasswordEncryptor;
@@ -28,6 +26,12 @@ public class UserService {
     private final SaltRepository saltRepository;
 
     private final PasswordEncryptor passwordEncryptor;
+
+    public UserInfoResponse lookUpInfo(UserInfoRequest userInfoRequest) {
+        User user = userRepository.findById(userInfoRequest.getId())
+                .orElseThrow(() -> new BadRequestException(ExceptionType.NOT_EXIST_USER_ID));
+        return UserInfoResponse.of(user);
+    }
 
     @Transactional
     public SignUpResponse signUpUser(SignUpRequest signUpRequest) {
