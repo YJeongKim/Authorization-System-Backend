@@ -34,6 +34,14 @@ public class UserService {
     }
 
     @Transactional
+    public UserInfoResponse modifyInfo(UpdateUserInfoRequest userInfoRequest) {
+        User user = userRepository.findById(userInfoRequest.getId())
+                .orElseThrow(() -> new BadRequestException(ExceptionType.NOT_EXIST_USER_ID));
+        user.updateNickname(userInfoRequest.getNickname());
+        return UserInfoResponse.of(user);
+    }
+
+    @Transactional
     public SignUpResponse signUpUser(SignUpRequest signUpRequest) {
         if (existsUserByEmail(signUpRequest.getEmail())) {
             throw new BadRequestException(ExceptionType.DUPLICATE_EMAIL);

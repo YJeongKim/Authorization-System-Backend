@@ -27,6 +27,13 @@ public class UserController {
         return ResponseEntity.ok().body(userInfoResponse);
     }
 
+    @PutMapping()
+    public ResponseEntity<UserInfoResponse> modifyUserInfo(@RequestBody @Valid UpdateUserInfoRequest userInfoRequest) {
+        // TODO: auth-service token 검증 및 id 받아오기
+        UserInfoResponse userInfoResponse = userService.modifyInfo(userInfoRequest);
+        return ResponseEntity.ok().body(userInfoResponse);
+    }
+
     @PostMapping("/sign-up")
     public ResponseEntity<SignUpResponse> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
         SignUpResponse signUpResponse = userService.signUpUser(signUpRequest);
