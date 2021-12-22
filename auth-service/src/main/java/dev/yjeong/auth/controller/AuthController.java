@@ -11,7 +11,7 @@ import dev.yjeong.auth.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +31,7 @@ public class AuthController {
 
     private final UserFeignClient userFeignClient;
 
-    @GetMapping("/token")
+    @PostMapping("/token")
     public ResponseEntity<SignInResponse> issue(@RequestBody @Valid SignInRequest signInRequest,
                                                 HttpServletResponse httpServletResponse) {
         SignInResponse signInResponse = userFeignClient.signIn(signInRequest);
