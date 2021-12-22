@@ -43,7 +43,7 @@ public class UserController {
     @PostMapping("/sign-in")
     public ResponseEntity<SignInResponse> signIn(@RequestBody @Valid SignInRequest signInRequest) {
         SignInResponse signInResponse = userService.signInUser(signInRequest);
-        return ResponseEntity.ok().body(signInResponse); // TODO: auth-service 호출 후 token 발급
+        return ResponseEntity.ok().body(signInResponse);
     }
 
     @PostMapping("/password")
