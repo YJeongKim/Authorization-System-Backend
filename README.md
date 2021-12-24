@@ -36,6 +36,18 @@
 
 <br>
 
+## Architecture
+
+![msa-server](https://user-images.githubusercontent.com/33328991/150264659-39b188a5-ef4a-46d8-baa6-114d135e91a2.png)
+
+<br>
+
+### DataBase Modeling
+
+(추가 예정)
+
+<br>
+
 ## 🧩 API Spec
 
 > Request URL : http://localhost:9000/
